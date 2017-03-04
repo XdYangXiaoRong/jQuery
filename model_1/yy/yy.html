@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>YY登录界面</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="/Users/qingyun/Desktop/课堂/jQuery/jquery_study/jquery_library/jquery-3.1.1.js"></script>
+	<style type="text/css">
+		#main{
+			width: 494px;
+			height: 281px;
+			margin:0px auto;
+			background-image:url("img/bg.jpg");
+			background-repeat: no-repeat;
+			position: relative;
+		}	
+		.enter{
+			width:203px;
+			height: 25px;
+			position: absolute;
+			left:183px;
+		}
+		.text{
+			top:105px;
+		}
+		.password{
+			top:140px;
+		}
+		#submit{
+			position: absolute;
+			top:190px;
+			left:183px;
+			background-image: url("img/btn.jpg");
+			background-repeat: no-repeat;
+			width:100px;
+			height:30px;
+			border:none;
+		}
+		.tip{
+			width: 250px;
+			height: 30px;
+			color:red;
+			position: absolute;
+			top:230px;
+			left:183px;
+			/*border:1px solid red;*/
+		}
+	</style>
+</head>
+<body>
+<form name="order">
+	<div id="main">
+		<input type="text" name="" class="enter text" placeholder="请输入手机号或者账号">
+		<!-- <input type="text" name="" class="enter text" placeholder="请输入手机号或者账号">
+		<input type="text" name="" class="enter text" placeholder="请输入手机号或者账号"> -->
+		<input type="password" name="" class="enter password" placeholder="请输入您的登录密码">
+		<input type="submit" name="" id="submit" value="">
+		<div class="tip"></div>
+	</div>
+	
+</form>
+<script type="text/javascript">
+	$("input[type='text']").focus(function(){
+		$(this).attr("placeholder","");
+		$(".tip").html("");
+	});
+	$("input[type='text']").blur(function(){
+		$(this).attr("placeholder","请输入手机号或者账号");
+	});
+	$("input[type='password']").focus(function(){
+		$(this).attr("placeholder","");
+	});
+	$("input[type='password']").blur(function(){
+		$(this).attr("placeholder","请输入您的登录密码");
+	});
+	var regUserName=/^\d{11}$/;//以手机号的形式登录
+	var regUserName2=/^\w+@[a-z]+\.[a-z]{2,}$/;//以电子邮箱的形式登录
+	$("#submit").click(function(){
+		var $test=$("input[type='text']").val();
+		var $password=$("input[type='password']").val();
+		if(regUserName.test($test)==true||regUserName2.test($test)==true){
+			// alert('right');
+			if($password.length<6){
+				$("form[name='order']").attr('onsubmit','return false');
+				$(".tip").html("请确保密码的长度大于6");
+			}
+			else{
+				$("form[name='order']").attr('onsubmit','return true');
+			}
+
+		}else{
+			$("form[name='order']").attr('onsubmit','return false');
+			$(".tip").html("你输入的账号格式不对!");
+		}
+	});
+
+</script>
+</body>
+</html>

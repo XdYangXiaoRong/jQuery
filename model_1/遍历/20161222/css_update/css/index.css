@@ -1,0 +1,11 @@
+div{
+    width: 200px;
+    height: 200px;
+    background-color: red;
+}
+.change{
+    width: 600px;
+    height: 600px;
+    background-color: yellow;
+    border: 10px solid deeppink;
+}

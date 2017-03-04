@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>向下遍历</title>
+	<meta charset="utf-8">
+	<!-- <link rel="stylesheet" type="text/css" href="向下遍历.css"> -->
+	<style type="text/css">
+		*{
+			padding:0px;
+			margin:0px;
+		}
+		.box1{
+			width: 400px;
+			height: 400px;
+			padding: 20px;
+			border:5px solid black;
+		}
+		.box2{
+			width: 300px;
+			height: 300px;
+			padding: 20px;
+			border:5px solid black;
+		}
+		.box3{
+			width: 200px;
+			height: 200px;
+			padding: 20px;
+			border:5px solid black;
+		}
+	</style>
+	<script type="text/javascript" src='jquery-3.1.1.min.js'></script>
+</head>
+<body>
+<div class="box1">
+	<div class="box2">
+		<div class="box3">
+			<p>我是最小的</p>
+		</div>
+	</div>
+</div>
+<input type="button" name="" value="向下遍历" id="down">
+<input type="button" name="" value='向上遍历' id="up">
+<script type="text/javascript">
+	$(document).ready(function(){
+		//向下遍历
+		//children() 向下遍历直接子元素,参数为可选
+		//find(element) 向下遍历所有子代元素,参数为必填
+		$('#down').click(function(){
+			//$('.box1').children().css({'background-clor':'red'});//只能找到box2
+			$('.box1').find('.box2').css({'border-color':'red'});//box2,box3,都乐意找到
+		});
+		//向上遍历 parent() parents() parentUtil()
+		//parent() 找到直接父代
+		$('#up').click(function(){
+			//$('.box3').parent().css({'border-color':'green'});//找到直接父代box2
+			//$('.box3').parents().css({'border-color':'green'});//找到所有父代,box2,box3
+			$('.box3').parentsUntil('.box1').css({'border-color':'blue'});//寻找box1和box3之间的box1的父类元素
+		});
+	});
+</script>
+</body>
+</html>

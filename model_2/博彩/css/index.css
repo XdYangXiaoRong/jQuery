@@ -1,0 +1,83 @@
+@charset "utf-8";
+/* CSS Document */
+
+/*
+ * 页面广告AD
+ */
+.ad {
+	min-width:1000px;
+	max-width:1390px;
+	height:60px;
+	text-align:center;
+	overflow:hidden;
+	position:relative;
+}
+.ad a {
+	display:inline-block;
+	position:absolute;
+	top:0;
+	left:50%;
+	margin-left:-695px;
+}
+.ad em {
+	display:block;
+	width:25px;
+	height:25px;
+	background: url("../images/public/icon_close.png");
+	position:absolute;
+	top:50%;
+	right:20px;
+	z-index:99;
+	margin-top:-12.5px;
+	cursor:pointer;
+}
+/*
+ * 页面顶部Top
+ */
+.top {
+	height:30px;
+	border-top:1px solid #ededed;
+	border-bottom:1px solid #ededed;
+}
+.top_bar {
+	width:1000px;
+	height:14px;
+	padding:8px 0;	
+}
+.div_select {
+	float:left;
+	min-width:100px;
+	height:14px;
+	margin-right:10px;
+	position:relative;
+}
+.div_select span {
+	float:left;
+	height:14px;
+	line-height:14px;
+	padding-right:5px;
+}
+.div_select i {
+	float:left;
+	width:9px;
+	height:14px;
+	background:url("../images/public/icon.png") no-repeat -5px 1px;
+}
+.div_select p {
+	background:#fff;
+	border:1px solid #ededed;
+	position:absolute;
+	top:22px;
+	left:0;
+	right:0;
+	z-index:999;
+	display:none;
+}
+.div_select p a {
+	display:block;
+	padding-left:10px;
+	height:30px;
+	line-height:30px;
+}
+
+

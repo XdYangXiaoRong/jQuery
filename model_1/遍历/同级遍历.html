@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>同级遍历</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="jquery-3.1.1.min.js"></script>
+</head>
+<body>
+<p>同级遍历的</p>
+<div class="main">
+	<div class="box1">
+		<p>我是上面的段落</p>
+	</div>
+	<div class="box2">
+		<h1>This is title one.</h1>
+		<h2>This is title two.</h2>
+		<h3>This is title three.</h3>
+		<h4>This is title four.</h4>
+		<h5>This is title five.</h5>
+		<h6>This is title six.</h6>
+		<p>我是一个并非h定义的标题</p>
+		<p>tittle too</p>
+	</div>
+</div>
+<input type="button" name="" value="同级遍历" id="button1">
+<hr>
+<p>过滤方法的检测</p>
+<ul id="search">
+	<li>1111111111one one</li>
+	<li>2222222222two two</li>
+	<li class="special">3333333333three three</li>
+	<li>4444444444four four</li>
+	<li>5555555555five five</li>
+</ul>
+<input type="button" name="" value="过滤" id="button2">
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		//同级遍历
+		//siblings next  nextAll nextUntil prev prevAll prevUntil
+		//siblings 所有的同级元素(后面所有内容都是仅限于其父元素里包含的元素)
+		//next 下一个元素,而且只能是紧挨的下一个
+		//nextAll 下面所有的同级元素
+		//prev 上一个元素
+		//prevAll 上面所有的同级元素
+		$("#button1").click(function(){
+			$('h3').siblings().css('color','red');//找到h3的兄弟,然后字体色色变为红色
+			$('h3').next().css('color','green');//找到h3的下一个元素,字体变为绿色
+			$('h3').next('p').css('color','blue');//没有效果,可见只能用于寻找紧挨的下一个元素
+			$('h3').prev().css('color','purple');//找其紧挨着的上一个元素
+			$('h3').nextAll().css('text-transform','uppercase');//h3后面所有的元素变为大写(仅限于其父元素里包含的元素)
+			$('h3').prevAll().css('text-transform','capitalize');//h3前面的所有英文字母首字母大写
+			$('h3').nextUntil('h6').css('background-color','lightgrey');//h3~h6之间的元素背景变为浅灰色
+			$('h3').prevUntil('h1').css('background-color','pink');//h1~h2之间的元素背景变为粉红色
+		});
+		//过滤方法
+		//first() last() eq() filter()[具有某种属性] not() :lt() :gt()
+		$('#button2').click(function(){
+			$("ul li").first().css('color','red');
+			$("ul li").last().css({'color':'blue','font-size':'20px'});
+			$("ul li").eq(1).css('background-color','lightgrey');//下标从零开始
+			$("ul li").filter('.special').css({'background-color':'red',"color":"white","font-size":"30px"});
+			$("ul li").not('.special').css('text-transform','uppercase');
+		});
+
+	});
+</script>
+</body>
+</html>

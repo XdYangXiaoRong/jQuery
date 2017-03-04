@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>元素添加删除</title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../jquery_library/jquery-3.1.1.js"></script>
+	<style type="text/css">
+		.newDiv{
+			color:red;
+		}
+		.newDiv2{
+			color: green;
+		}
+		#pid{
+			background-color: pink;
+		}
+		#element_cut{
+			width: 500px;
+			height:30px;
+			background-color: lightgrey;
+		}
+	</style>
+</head>
+<body>
+
+<!-- 	一.元素的添加,创建
+		(1).insertAfter()和.after():在现存元素的外部,从后面插入元素
+		(2).insertBefore()和.before():在现存元素的外部,从前面插入元素
+		(3).appendTo()和.append():在现存元素的内部,从后面插入元素
+		(4).prependTo()和.prepend():在现存元素的内部,从前面插入元素 
+		二.元素的赋值,删除
+		(1)复制元素用.clone().
+		(2)删除元素用.remove()和.detach().两者的区别在于.remove()不保留被删除元素的事件,.detach()保留,有利于重新插入文档时使用.
+		(3)清空元素内容(但是不删除该元素)使用.empty().
+
+-->
+<p id="pid">眼睛一闭一睁一天过去了,眼睛一闭不睁,一辈子过去了</p>
+<input type="button" name="" id="addBtn1" value="添加在元素内部">
+<input type="button" name="" id="addBtn2" value="添加在元素外部">
+<br>	
+<div id="element_cut">
+	我是一个元素,remove()会把我的div都移除,但是empty()只会删除我的文本!
+</div>
+<input type="button" name="" id="removeBtn" value="删除元素">
+<script type="text/javascript">
+	$("#addBtn1").click(function(){
+		//创建新文本
+		var newDiv=$("<div class='newDiv'>革命尚未成功,同志尚需努力!</div>");
+		//$("#pid").append(newDiv);
+		newDiv.appendTo($("#pid"));//两者一样得效果,但是返回值不同,前者返回$("#pid"),后者返回newDiv
+	});
+	$("#addBtn2").click(function(){
+		var newDiv2=$("<div class='newDiv2'>我会被添加到元素p的外部</div>");
+		//$("#pid").before(newDiv2);
+		newDiv2.insertBefore($("#pid"));//两者一样得效果,但是返回值不同,前者返回$("#pid"),后者返回newDiv2
+	});
+	$("#removeBtn").click(function(){
+		// $("#element_cut").remove();//删除整个div
+		$("#element_cut").empty();//只删除div内部的文本内容
+		// $("#element_cut").detach();//remove()不保留被删除元素的事件,.detach()保留,有利于重新插入文档时使用.
+	});
+	
+	
+</script>
+</body>
+</html>

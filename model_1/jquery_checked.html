@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<script type="text/javascript" src="../jquery_library/jquery-3.1.1.js"></script><!-- 首先引入jquery库 -->
+	<style type="text/css">
+		#show{
+			width:100%;
+			height:30px;
+			background-color: pink;
+		}
+		#nav{
+			width:130px;
+			margin-top: 35px;
+			line-height: 40px;
+			font-size: 20px;
+			color: white;
+			background-color:blue;
+			padding:0px;
+			position: relative;
+		}
+		#nav li{
+			width: 100%;
+			height: 40px;
+			text-align: center;
+			list-style-type: none;
+			box-sizing:border-box;
+			border:1px solid grey;
+		}
+		.show_content{
+			width: 400px;
+			height: 200px;
+			background-color: lightgreen;
+			border:1px dashed grey;
+			position: absolute;
+			top:267px;
+			left:140px;
+			display: none;
+		}
+		.show_content:nth-of-type(1){
+			display: block;
+		}
+	</style>
+</head>
+<body>
+<h3>你的爱好是:</h3>
+<ul>
+	<li>
+		<input type="checkbox" name="" value="跑步">跑步
+	</li>
+	<li>
+		<input type="checkbox" name="" value="爬山">爬山
+	</li>
+	<li>
+		<input type="checkbox" name="" value="游泳">游泳
+	</li>
+	<li>
+		<input type="checkbox" name="" value="画画">画画
+	</li>
+	<li>
+		<input type="checkbox" name="" value="唱歌">唱歌
+	</li>
+</ul>
+<input type="button" name="" value="显示">
+<p id="show"></p>
+<ul id="nav">
+	<li>衣服</li>
+	<li>鞋子</li>
+	<li>化妆品</li>
+	<li>生活用品</li>
+	<li>医药</li>
+</ul>
+<input type="button" name="" value="菜单的隐藏与显示">
+<div class="show_content">
+	衣服
+</div>
+<div class="show_content">
+	鞋子
+</div>
+<div class="show_content">
+	化妆品
+</div>
+<div class="show_content">
+	生活用品
+</div>
+<div class="show_content">
+	医药
+</div>
+<script type="text/javascript">
+	/**window.onload 与 document.ready的区别*/
+	/*
+		1.window.onload 只书写一次
+		$(function(){}) 可以写多次
+		2.window.onload 等待所有资源加载完成后运行
+		$(function(){}) 节点渲染完成,(图片的等资源加载完成)时便可以执行
+	*/ 
+	//window.onload=function(){
+	$(function(){
+		$(':button:first').click(function(){
+			var $hobby=$(':checkbox:checked');//获取选中的checkbox对象
+			var value='';
+			for(var i=0;i<$hobby.length;i++){
+				 value+=$hobby[i].value;
+			}
+			$('#show').html(value);
+		});
+		$(':button:nth-of-type(2)').click(function(){
+			$('#nav').animate({height:'toggle'},2000);
+			//$('#nav').toggle(2000);//toggle,用于css样式的改变,时间可加可不叫
+		});
+		/**选项卡jQuery不支持for循环*/
+		// var ln=$('#nav li').length;
+		// for(var i=0;i<ln;i++){
+		// 	console.log(i);
+		// 	$('#nav li')[i].click(function(){
+		// 		alert("hello");
+		// 	});
+		// }
+		/*选项卡:方法一(遍历元素)*/
+		$("#nav li").each(function(index){
+			$(this).click(function(){
+				$(this).siblings().css({"background-color":"blue","color":"white"});
+				$(this).css({"background-color":"white","color":"blue"});
+				$(".show_content").css("display","none");
+				$(".show_content:eq("+index+")").css("display",'block');
+			});
+		})
+		/*选项卡:方法二*/
+		$("#nav li").mouseover(function(){
+			$(this).siblings().css({"background-color":"blue","color":"white"});
+			$(this).css({"background-color":"white","color":"blue"});
+			$(".show_content").eq($(this).index()).show().siblings('.show_content').hide();
+		});
+	})
+
+	/**
+		hide() 隐藏元素
+		show() 显示元素
+		toggle() 当元素隐藏时,显示该元素,当元素显示时,隐藏该元素
+	*/
+</script>
+</body>
+</html>

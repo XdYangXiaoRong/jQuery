@@ -1,0 +1,49 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">  
+<html>  
+<head>  
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">  
+<title>Test Jquery remove detach empty</title>  
+<style>p { background:yellow; margin:6px 0; } p.off { background: black; }</style>  
+<script type="text/javascript" src="../jquery_library/jquery-3.1.1.js"></script><!-- 首先引入jquery库 -->
+<script>  
+/**
+  empty(),remove(),detach()的区别
+  (1) empty()
+  该方法不仅删除它的子节点，同时也删除该节点的文本域（根据DOM规范，节点的文本域也被认为是子节点）。 
+  (2) remove( [selector] )
+  和empty方法类似，remove方法也是从DOM里删除元素。当你想要删除节点本身和节点里的所有东西的时候，可以使用remove方法。除了节点本身以外，节点绑定的事件 和该节点相关的JQuery数据，也会被同时清除。当需要清除节点本身，但是不需要清除绑定的事件和数据的时候，可以使用detach方法。 
+  (3)detach( [selector] )
+  detach方法和remove方法很相似，但是它会保留所有JQuery相关的数据和绑定的事件。当你删除之后，想要在后来的某个时候重新加入时，这个方法将会很有用。
+
+*/
+    $(document).ready(function(){  
+        $("p").click(function(){  
+            $(this).toggleClass("off");  
+        });  
+          
+        var p;  
+        $("#button").click(function(){  
+              if ( p ) {  
+                console.log("p");
+                p.appendTo("body");  
+                p = null;  
+              } else {  
+                console.log("not p");
+                p = $("p").detach();  
+              // p = $("p").remove(); //使用detach P元素的点击事件删除再加回来之后依然可以触发,但是使用remove,P元素的点击事件删除再加回来之后就不可以触发了
+              // p = $("p").empty();  
+              }   
+        });  
+    });   
+</script>  
+</head>  
+  
+<body>  
+  <p id="A">Hello <span>subNode</span></p>  
+  how are  
+  <p id="B">you? <span>subNode</span></p>  
+    
+  <input type="button" id="button" value="Attach/detach paragraphs" />   
+  
+</body>  
+</html>  

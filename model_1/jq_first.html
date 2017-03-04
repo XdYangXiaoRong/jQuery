@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<meta charset="utf-8">
+	<style type="text/css">
+		#box{
+			width: 200px;
+			height: 100px;
+			background-color: blue;
+		}
+		.box_class{
+			width: 200px;
+			height: 50px;
+			background-color: lightgreen;
+		}
+	</style>
+	<script type="text/javascript" src="../jquery_library/jquery-3.1.1.js"></script><!-- 首先引入jquery库 -->
+</head>
+<body>
+<div id="box"></div>
+<div class="box_class"></div>
+<input type="button" name="" id="btn" value="change color">
+<ul id="myul">
+	<li>
+		<ul>
+			<li>baeutiful girl</li>
+			<li>pretty boy</li>
+		</ul>
+	</li>
+	<li>baby</li>
+	<li>hello world</li>
+	<p>
+		<ul>
+			<li>傻逼</li>
+			<li>笨蛋</li>
+		</ul>
+	</p>
+</ul>
+<input type="button" name="" id="son" value="子选择器">
+<input type="button" name="" id="children" value="后代选择器">
+<script type="text/javascript">
+	$("#btn").click(function(){
+		$("#box").css({"background-color":"red","width":"100px"});
+		$("*").css({"margin-top":"10px"});
+		$(".box_class").css({"border-width":"5px","border-color":"green","border-style":"solid"});
+	});
+		$("#son").click(function(){
+			$("#myul>li").css({"background-color":"pink"});//子选择器
+		});
+		
+		$("#children").click(function(){
+			$("#myul li").css({"background-color":"lightblue"});//若加上:eq(0)指ul,:eq(1)指ul里的第一个li
+		});//后代选择器
+	/**
+		文档加载完成后再执行jQuery的方法,三种形式(否则需要将文档放在body的最末端)
+		1.$(document).ready(function(){})
+		2.$().ready(function(){})
+		3.$(function(){})
+	*/
+	/**
+	一.选择网页元素
+		选择器:
+		1.标签选择器:$("div");
+		2.id选择器:$("#box");
+		3.类选择器:$(".box_class");
+		4.通用选择器:$("*");
+		5.群组选择器;
+		6.层级选择器:
+			(1)子选择器;ul>li
+			(2)后代选择器;ul li
+			(3)相邻兄弟选择器;
+			(4)通用兄弟选择器;
+		7.基本过滤选择器:
+		1.:first,:last;
+		2.:not;
+		3.:even,:odd;
+		4.:eq(),:lt(),:gt(); eg:　$('div:gt(2)') // 选择所有的div元素，除了前三个,$("#myul li:eq(0)")//选取此处的第一个元素
+		5.:visible,$('div:visible')//选取可见的div元素
+		6.:animate,$('div:animate')//选择当前处于动画状态的div元素
+		7.:empty,$('td:empty')//当单元格为空时的元素
+		8.:parent,$('td:parent')//以td为父元素的所有元素
+		9.:contains,$("td:contains('xxx')"),//当td中行包含内容"xxx"时,对其做操作 
+		10.:header,选择h1~h6的内容,对其样式进行更改
+		11.$(":lang(语言种类)"),语言代码
+		12.$(":root"):文档的根元素，和$(":root")选择的元素一样， 永远是<html>元素。
+		13.$(":target"):如果文档的URI包含一个格式化的标识符，或hash（哈希）， 然后:target选择器将匹配ID和标识符相匹配的元素。  例如，给定的URI http://example.com/#foo， $( "p:target" )，将选择<p id="foo">元素。
+		14:$(":hidden"),$(":visible")
+			元素被认为是隐藏的集中情况:
+			(1)他们的css display值时none;
+			(2)他们是type="hidden"的表单元素;
+			(3)他们的宽度,高度都显式设置为0;
+			(4)一个祖先元素是隐藏的,因此该元素不会在页面上显示;
+			元素visibility:hidden或opacity:0被认为是可见的,因为他们仍然占据布局空间.在动画,隐藏一个元素,该元素被认为是可见的指导动画结束.
+			注意:因为 :hidden() 是一个 jQuery 延伸出来的一个选择器。 并且不是的CSS规范的一部分, 使用:hidden()查询不能充分利用原生DOM提供的querySelectorAll()方法来提高性能。为了在现代浏览器上获得更佳的性能，请使用.filter(":hidden")代替。(同理:visible)也是
+			
+	二.改变结界集
+	jQuery设计思想之二，就是提供各种强大的过滤器，对结果集进行筛选，缩小选择结果。
+		$('div').has('p');//选择包含p元素的div元素
+		$('div').not('.myClass');//选择class不等于myClass的div元素
+		$('div').filter('.myClass');//选择class等于myClass的div元素
+		$('div').first();//选择第一个div元素
+		$('div').eq(5);//选择div的第六个元素
+
+	有时候，我们需要从结果集出发，移动到附近的相关元素，jQuery也提供了在DOM树上的移动方法:
+		$('div').next('p');//选择div元素后面的第一个p元素
+		$('div').parent();//选择div匀速的父元素
+		$('div').closest('form');//选择离div最近的那个form父元素
+		$('div').children();//选择div的所有子元素
+		$('div').siblings();//选择div的同级元素
+
+	三.链式操作
+	jQuery设计思想之三，就是最终选中网页元素以后，可以对它进行一系列操作，并且所有操作可以连接在一起，以链条的形式写出来，比如：
+		　$('div').find('h3').eq(2).html('Hello');
+	分解开来，就是下面这样：
+	　　　$('div') //找到div元素
+	　　　.find('h3') //选择其中的h3元素
+	　　　.eq(2) //选择第3个h3元素
+	　　　.html('Hello'); //将它的内容改为Hello
+	jQuery还提供了.end()方法，使得结果集可以后退一步：
+		　$('div')
+	　　　.find('h3')
+	　　　.eq(2)
+	　　　.html('Hello')
+	　　　.end() //退回到选中所有的h3元素的那一步
+	　　　.eq(0) //选中第一个h3元素
+	　　　.html('World'); //将它的内容改为World
+	四.元素的操作:取值和赋值
+		操作网页元素，最常见的需求是取得它们的值，或者对它们进行赋值。
+	jQuery设计思想之四，就是使用同一个函数，来完成取值（getter）和赋值（setter），即"取值器"与"赋值器"合一。到底是取值还是赋值，由函数的参数决定。
+	$('h1').html();//html()没有参数,表示取出h1的值
+	$('h1').html('hello');//html()有参数hello,表示对h1进行赋值
+	常见的取值和赋值函数如下:
+		(1)html() 取出或设置html内容
+		(2)text() 取出或设置text内容
+		(3)attr() 取出或设置某个属性的值
+		(4)width() 取出或设置某个元素的宽度
+		(5)height() 取出或设置某个元素的高度
+		(6)val() 取出某个表单元素的值
+		注意:如果结界集包含多个元素,那么赋值的时候,将对其中所有的元素赋值;取值的时候,则是只取第一个元素的值(.text()例外,它取出所有元素的text内容).
+	五.元素的操作:移动
+		jQuery设计思想之五，就是提供两组方法，来操作元素在网页中的位置移动.一组方法是直接移动该元素,另一组方法是移动其他元素,使得目标元素达到我们想要的位置.
+		假定我们选中了一个div元素，需要把它移动到p元素后面。
+		方法一:使用.insertAfter(),把div元素移动到p元素后面
+			$('div').insertAfter($('p'));
+		方法二:使用.after(),把p元素加到div元素的前面
+			$('p').after('div');
+		表面看上去,这两种方法的效果是一样的,唯一的不同似乎只是操作视角的不同.但是实际上,她们有一个重大的区别,那就是返回的元素不一样.第一种方法返回的是div元素,第二种返回的是p元素.
+		使用这种模式的操作方法,一共有四对:
+		(1).insertAfter()和.after():在现存元素的外部,从后面插入元素
+		(2).insertBefore()和.before():在现存元素的外部,从前面插入元素
+		(3).appendTo()和.append():在现存元素的内部,从后面插入元素
+		(4).prependTo()和.prepend():在现存元素的内部,从前面插入元素
+	六.元素的操作:复制,删除,创建
+		除了元素的位置移动之外,jquery还提供了其他几种操作元素的重要方法
+		(1)复制元素用.clone().
+		(2)删除元素用.remove()和.detach().两者的区别在于.remove()不保留被删除元素的事件,.detach()保留,有利于重新插入文档时使用.
+		(3)清空元素内容(但是不删除该元素)使用.empty().
+		(4)创建新元素的方法:只要把新元素直接传入jquery的构造函数就可以
+			$('<p>hello</p>');
+			$('<li class="new">new list item</li>');
+			$('ul').append('<li>list item</li>');
+	七.工具方法
+		jQuery设计思想之六：除了对选中的元素进行操作以外，还提供一些与元素无关的工具方法（utility）。不必选中元素，就可以直接使用这些方法。
+		(1)$.trim() 去除字符串两端的空格;
+		(2)$.each() 遍历一个数组或者对象;
+		(3)$.inArray() 返回一个值在数组中的索引位置.如果该值不在数组中,则返回-1;
+		(4)$.qrep() 返回数组中符合某种标准的元素;
+		(5)$.extend() 将对各对象,合并到一个对象;
+		(6)$.makeArray() 将对象转化为数组;
+		(7)$.type() 判断对象的类别(函数对象,日期对象,数组对象,正则对象等);
+		(8)$.isArray() 判断吗某个参数是否为数组;
+		(9)$.isEmptyObject() 判断某个对象是否为空(不含有任何属性).
+		(10)$.isPlainObject() 判断某个参数是否为用"{}"或"new Object"建立的对象;
+		(11)$.isFunction() 判断某个元素是否为函数
+		(12)$.support() 判断浏览器是否支持某个属性
+	八.事件操作
+	jQuery设计思想之七，就是把事件直接绑定在网页元素之上。
+		$('p').click(function(){
+			alert('hello');
+		});
+	目前,jQuery主要支持以下事件:
+		.blur() 表单元素失去焦点
+		.change() 表单元素的值发生改变
+		.click() 鼠标单击
+		.dbclick() 鼠标双击
+		.focus() 表单元素获得焦点
+		.focusin() 子元素获得焦点
+		.focusout() 子元素失去焦点
+		.hover() 同时为mouseenter和mouseleave事件指定处理函数
+		.keydown() 按下键盘（长时间按键，只返回一个事件）
+		.keypress() 按下键盘(长时间按键.将返回多个事件)
+		.keyup() 松开键盘
+		.load() 元素加载完毕
+		.mousedown() 按下鼠标
+		.mouseenter() 鼠标进入()
+		.mouseleave() 鼠标离开（离开子元素不触发）
+	　　 .mousemove() 鼠标在元素内部移动
+	　　 .mouseout() 鼠标离开（离开子元素也触发）
+	　　 .mouseover() 鼠标进入（进入子元素也触发）
+	　　 .mouseup() 松开鼠标
+		.ready() DOM加载完成
+		.resize() 浏览器窗口的大小发生改变
+		.scroll() 滚动条的位置发生改变
+		.select() 用户选中文本框中的内容
+		.submit() 用户递交表单
+		.toggle() 根据鼠标点击的次数,一次运行多个函数
+		.unload() 用户离开页面
+	以上这些事件在jQuery内部，都是.bind()的便捷方式。使用.bind()可以更灵活地控制事件，比如为多个事件绑定同一个函数：
+		$('input').bind(
+			'click change',//同时绑定click和change事件\
+			function(){
+				alert('hello');
+			}
+		);
+	有时,你只想让事件运行一次,这时可以使用.one()方法
+		$('p').one('click',function(){
+			alert('hello');//只运行一次,以后的点击不会运行
+		});
+	.unbind()用来解除事件绑定
+		$('p').unbind('click');
+	所有的事件处理函数,都可以接受一个事件对象作为参数,比如下面的例子e:
+		$('p').click(function(e)){
+			alert(e.type);//click
+		}
+	这个书剑对象有一些很有用的属性和方法:
+		event.pageX 事件发生时,鼠标距离网页左上角的水平距离
+		event.pageY 事件发生时,鼠标距离网页左上角的垂直距离
+		event.type 事件的类型(比如click)
+		event.which 按下了哪一个键
+		event.data 在事件对象上绑定数据,然后传入事件处理函数
+		event.target 事件针对的网页元素
+		event.preventDefault() 阻止事件的默认行为(比如点击链接,会自动打开新网页)
+		event.stopPropagation() 停止事件向上层元素冒泡
+	在事件处理函数中，可以用this关键字，返回事件针对的DOM元素
+		
+	有两种方法,可以自动触发一个事件.一种是直接使用事件函数,另一件是使用.trigger(或.triggerHandler().
+		$('a').click();
+		$('a').trigger('click');
+
+	九.特殊效果
+	最后,jQuery允许对象呈现特殊效果
+		$('h1').show();//展现一个h1标签
+
+	常见的特殊效果如下:
+		fadeIn() 淡入
+		fadeOut() 淡出
+		fadeTo() 调整透明度
+		hide() 隐藏元素
+		show() 显示元素
+		slideDown() 向下展开
+		slideUp() 向上卷起
+		slideToggle() 依次展开或卷起某个元素
+		toggle() 依次展开或隐藏某个元素
+
+	除了,show()和hide(),所有其他特效的默认执行时间都是400ms,但是可以自己定义
+		$('h1').fadeIn(300);//300毫秒内淡入
+		$('h1').fadeOut('slow');//缓缓的淡出
+
+	在特效结束后,可以指定执行某个函数.
+		$('p').fadeOut(300,function(){ $(this).remove(); });
+	更复杂的特效,可以用.animate()自定义.
+		$('div').animate(
+			{
+				left:"+=50",//不断右移
+				opacity:0.25//指定透明度
+			},
+			300,//特效持续时间
+			function(){ alert('done!');}//回调函数
+		);
+	.stop()和.delay()用来停止或延缓特效的执行.
+	.$.fx.off如果设置为true,则关闭所有网页特效.
+
+	*/
+
+</script>
+</body>
+</html>
